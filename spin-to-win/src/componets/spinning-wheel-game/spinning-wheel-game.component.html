@@ -1,4 +1,4 @@
-<div *ngIf="loading">
+<div *ngIf="loading" class="container">
     <div #wheel class="wheel" [style]="wheelStyle">
         <div *ngFor="let value of wheelValues" [ngStyle]="{'transform': transformSegment(value)}" class="segment">
             {{ value.label}}

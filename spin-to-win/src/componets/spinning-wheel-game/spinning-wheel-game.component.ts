@@ -70,7 +70,7 @@ export class SpinningWheelGameComponent implements OnInit, OnDestroy {
 
   transformSegment(value: WheelValues): any {
     let angle = 270 + this.segmentOffset + value.rotation 
-    return `rotate(${angle}deg) translate(${300 / 2}px) rotate(-${angle}deg)`
+    return `rotate(${angle}deg) translate(${20 / 2}em) rotate(-${angle}deg)`
   }
 
   playAnimation(random: boolean) {
