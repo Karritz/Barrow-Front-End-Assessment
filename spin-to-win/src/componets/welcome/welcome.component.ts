@@ -9,13 +9,11 @@ import { Router } from '@angular/router';
 })
 export class WelcomeComponent {
 
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
 
+  navigateToGame() {
+    this.router.navigate(['/game']);
   }
-
-navigateToGame() {
-  this.router.navigate(['/game']);
-}
 
 
 }
