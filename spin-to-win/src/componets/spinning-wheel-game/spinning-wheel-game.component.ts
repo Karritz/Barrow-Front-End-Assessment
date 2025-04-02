@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { WheelValues } from './interfaces/wheelValue';
 import { CommonModule } from '@angular/common';
+import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations'
 
 @Component({
   selector: 'app-spinning-wheel-game',
@@ -8,7 +9,9 @@ import { CommonModule } from '@angular/common';
   templateUrl: './spinning-wheel-game.component.html',
   styleUrl: './spinning-wheel-game.component.css'
 })
-export class SpinningWheelGameComponent implements OnInit {
+export class SpinningWheelGameComponent implements OnInit, OnDestroy {
+
+  @ViewChild('wheel') demoCard: ElementRef | undefined;
 
   wheelValues: WheelValues[] = [
     {
@@ -20,7 +23,7 @@ export class SpinningWheelGameComponent implements OnInit {
       label: "segment 1",
       color: "blue",
       rotation: 0,
-    },{
+    }, {
       label: "segment 2",
       color: "yellow",
       rotation: 0,
@@ -38,22 +41,63 @@ export class SpinningWheelGameComponent implements OnInit {
   ];
 
   segmentSlice = 360 / this.wheelValues.length;
-  segmentOffset = 0;
-  
-  wheelStyle!:string;
-  wheelSegments:string = '';
+  segmentOffset = Math.floor(180 / this.wheelValues.length);
 
-  loading: boolean= false;
+  wheelStyle!: string;
+  wheelSegments: string = '';
+
+  loading: boolean = false;
+
+  private animationPlayer: AnimationPlayer | undefined;
+
+  constructor(private animationBuilder: AnimationBuilder) { }
+  
+  ngOnDestroy(): void {
+    this.animationPlayer?.destroy()
+  }
+
 
   ngOnInit(): void {
     for (let i = 0; i < this.wheelValues.length; i++) {
-      this.wheelValues[i].rotation =this.segmentOffset - ((this.segmentSlice * i) * - 1);  
+      this.wheelValues[i].rotation = 0 - ((this.segmentSlice * i) * - 1);
       this.wheelSegments = this.wheelSegments + `${this.wheelValues[i].color} ${this.wheelValues[i].rotation}deg ${this.wheelValues[i].rotation + this.segmentSlice}deg,`
     }
     this.wheelSegments = this.wheelSegments.slice(0, -1);
     this.wheelStyle = `background: conic-gradient(${this.wheelSegments});`;
     this.loading = true;
-    console.log(this.wheelStyle)
+    console.log(this.wheelValues)
   }
 
+  transformSegment(value: WheelValues): any {
+    let angle = 270 + this.segmentOffset + value.rotation 
+    return `rotate(${angle}deg) translate(${300 / 2}px) rotate(-${angle}deg)`
+  }
+
+  playAnimation(random: boolean) {
+    let index = 0
+    if(random) {
+      index = Math.floor(Math.random() * this.wheelValues.length);
+    } 
+    const player = this.getAnimationPlayer((this.segmentOffset + this.wheelValues[index].rotation));
+    if (!player) {
+      return
+    }
+    player.play();
+  }
+
+
+  private getAnimationPlayer(degrees: number): AnimationPlayer | undefined {
+    if (!this.demoCard?.nativeElement) {
+      return;
+    }
+      const factory = this.animationBuilder.build(
+        [
+          style({ transform: 'rotate(0deg)' }),
+          animate('1000ms cubic-bezier(0.175, 0.885, 0.32, 1.275)', style({ transform: `rotate(${360 - degrees}deg)` })),
+        ]
+      );
+      this.animationPlayer = factory.create(this.demoCard.nativeElement); 
+
+    return this.animationPlayer;
+  }
 }

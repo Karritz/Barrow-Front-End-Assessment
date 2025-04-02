@@ -1,6 +1,18 @@
 
-.pie {
-  width: 400px;
-  height: 400px;
+.wheel {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  margin: calc(100px / 2 + 0px);
+}
+
+.wheel .segment {
+	position: absolute;
+  top: 57%;
+  left: 53%;
+  width: 100px;
+  height: 100px;
+  margin: calc( -100px / 2 );
   border-radius: 50%;
 }
