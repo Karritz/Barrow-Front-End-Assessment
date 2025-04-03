@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { WheelValues } from './interfaces/wheelValue';
 import { CommonModule } from '@angular/common';
 import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-spinning-wheel-game',
@@ -50,7 +51,9 @@ export class SpinningWheelGameComponent implements OnInit, OnDestroy {
 
   private animationPlayer: AnimationPlayer | undefined;
 
-  constructor(private animationBuilder: AnimationBuilder) { }
+  constructor(private animationBuilder: AnimationBuilder, private router: Router) { 
+    sessionStorage.clear()
+  }
   
   ngOnDestroy(): void {
     this.animationPlayer?.destroy()
@@ -65,7 +68,6 @@ export class SpinningWheelGameComponent implements OnInit, OnDestroy {
     this.wheelSegments = this.wheelSegments.slice(0, -1);
     this.wheelStyle = `background: conic-gradient(${this.wheelSegments});`;
     this.loading = true;
-    console.log(this.wheelValues)
   }
 
   transformSegment(value: WheelValues): any {
@@ -83,6 +85,12 @@ export class SpinningWheelGameComponent implements OnInit, OnDestroy {
       return
     }
     player.play();
+    player.onDone(()=> {
+      sessionStorage.setItem('spinResult', JSON.stringify(this.wheelValues[index]));
+      if(sessionStorage.getItem('spinResult')) {
+        this.router.navigate(['/result'])
+      }
+    });
   }
 
 
