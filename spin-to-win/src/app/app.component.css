@@ -8,6 +8,19 @@
 
 .branding {
     display: flex;
-    flex-direction: column;
-    padding: 30px;
+    flex-direction: row;
+    padding-top: 30px;
+    font-size: 105px;
+}
+
+.chip {
+    width: .8em;
+    height: .8em;
+    padding-right: .2em;
+    padding-top: .15em;
+}
+
+.subtitle {
+    padding-bottom: 30px;
+    font-size: 50px;
 }
