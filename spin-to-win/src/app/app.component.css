@@ -9,7 +9,6 @@
 .branding {
     display: flex;
     flex-direction: row;
-    padding-top: 30px;
     font-size: 105px;
 }
 
@@ -23,4 +22,10 @@
 .subtitle {
     padding-bottom: 30px;
     font-size: 50px;
+}
+
+.routerOutlet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

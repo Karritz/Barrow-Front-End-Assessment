@@ -6,8 +6,16 @@
     gap: 20px;
     border-radius: 25px;
     background-color: whitesmoke;
-    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
     padding: 3em;
-  }
+}
+
+.btn {
+    border-radius: 15px;
+    border: 1px solid rgba(4, 152, 48, 1);
+    background-color: whitesmoke;
+    padding: 10px;
+    font-size: 25px;
+}
